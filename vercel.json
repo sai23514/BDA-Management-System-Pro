@@ -1,18 +1,17 @@
-# Frontend-only on Vercel.
-# Create the Vercel project with Root Directory = "client".
-# Do NOT use this file to host the API — chat needs a persistent Node host (Render/Railway).
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
+  "installCommand": "npm install --prefix server && npm install --prefix client",
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "client/dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
-  "routes": [
-    { "src": "/(.*)", "dest": "client/$1" }
-  ]
+  "functions": {
+    "api/index.ts": {
+      "memory": 1024,
+      "maxDuration": 30,
+      "includeFiles": "server/**"
+    }
+  }
 }

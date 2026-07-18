@@ -27,9 +27,19 @@ const connectDB = async (): Promise<void> => {
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
+// CORS configuration — allow configured client URL and Vercel preview/prod domains
 const corsOptions: CorsOptions = {
-  origin: env.CLIENT_URL,
+  origin: (origin, callback) => {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    const allowed =
+      origin === env.CLIENT_URL ||
+      /\.vercel\.app$/i.test(new URL(origin).hostname) ||
+      origin.startsWith('http://localhost:');
+    callback(allowed ? null : new Error(`CORS blocked for origin: ${origin}`), allowed);
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };

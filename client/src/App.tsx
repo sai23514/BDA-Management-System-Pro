@@ -5,6 +5,7 @@ import { getMe } from './redux/slices/authSlice';
 import { receiveMessage, fetchUnreadTotal } from './redux/slices/chatSlice';
 import { connectSocket, disconnectSocket } from './services/socket';
 import type { ChatMessage } from './types';
+import { SOCKET_ENABLED } from './constants';
 
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
@@ -38,9 +39,14 @@ function App() {
       return;
     }
 
-    const socket = connectSocket(accessToken);
     dispatch(fetchUnreadTotal());
 
+    // Socket.io is not available on Vercel serverless — chat still works via REST.
+    if (!SOCKET_ENABLED) {
+      return;
+    }
+
+    const socket = connectSocket(accessToken);
     const handleNewMessage = (payload: { conversationId: string; message: ChatMessage }) => {
       dispatch(receiveMessage(payload));
     };

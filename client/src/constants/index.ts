@@ -8,7 +8,13 @@ import type {
 } from '../types';
 
 export const API_BASE_URL: string =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
+
+/** Real-time sockets need a persistent Node host. Disabled by default in production. */
+export const SOCKET_ENABLED: boolean =
+  String(import.meta.env.VITE_ENABLE_SOCKET ?? (import.meta.env.DEV ? 'true' : 'false')) ===
+  'true';
 
 export const ROLES: Record<string, Role> = {
   SUPER_ADMIN: 'super_admin',
