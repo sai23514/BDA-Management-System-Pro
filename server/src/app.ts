@@ -14,6 +14,9 @@ import { env, isDevelopment } from './config/env.js';
 
 const app = express();
 
+// Required behind Vercel / reverse proxies so express-rate-limit can read X-Forwarded-For
+app.set('trust proxy', 1);
+
 // Connect to MongoDB (safe to call multiple times in serverless environments)
 const connectDB = async (): Promise<void> => {
   if (mongoose.connection.readyState >= 1) return;
