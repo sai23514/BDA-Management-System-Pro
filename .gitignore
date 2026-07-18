@@ -57,3 +57,6 @@ server/uploads/
 # Misc
 .eslintcache
 .parcel-cache
+
+.vercel
+.env*
