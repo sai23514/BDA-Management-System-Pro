@@ -4,9 +4,6 @@
   "version": "2.0.0",
   "description": "BDA Management System Pro — Vercel monorepo (client + API)",
   "engines": {
-    "node": ">=20"
-  },
-  "scripts": {
-    "vercel-build": "npm install --prefix client && npm run build --prefix client"
+    "node": "20.x"
   }
 }
