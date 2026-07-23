@@ -733,7 +733,4 @@ This project satisfies the BDA module requirement by implementing:
 
 ## Author
 
-Saidatta Dasari
-saidattad09@gmail.com
 
-Built as part of the MERN Stack Developer Intern technical assessment.
